@@ -447,7 +447,7 @@ with st.sidebar:
 
     st.write("Introduction:")
     intro()
-    generate_audio()
+    # generate_audio()
      
     # Display audio conversation history in the sidebar
     with st.expander("Conversation History"):

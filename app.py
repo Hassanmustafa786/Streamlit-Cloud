@@ -447,6 +447,14 @@ def dialogue7(selected_language):
     else:
         st.success("Congratulations! You have successfully completed all the dialogues.")
 
+<<<<<<< HEAD
+=======
+st.set_page_config(
+    page_title="ICNA App",
+    page_icon="🗣",
+    layout="wide",
+)
+>>>>>>> cc4161a9c4c2bff680e7fc0b25d72ad0bd29867d
 
 with st.sidebar:
     selected_language = st.selectbox("Select Language", ["en", "ur", "es", "bn", "ar"])
@@ -458,6 +466,7 @@ with st.sidebar:
     # Display audio conversation history in the sidebar
     with st.expander("Conversation History"):
         display_audio_conversation_history()
+<<<<<<< HEAD
     
 def home(selected_language):
     tab1, tab2 = st.tabs(["Q & A", "Translator"]) 
@@ -654,6 +663,198 @@ def home(selected_language):
                 except sr.RequestError as e:
                     st.error(f"Could not request results from Google Speech Recognition service; {e}")
 
+=======
+        
+def home(selected_language):
+    tab1, tab2 = st.tabs(["Q & A", "Translator"])    
+
+    if 'question_number' not in st.session_state:
+        st.session_state.question_number = 1
+
+    with tab1:
+        if st.session_state.question_number <= 7:
+            st.write(f"Question: {st.session_state.question_number}")
+            speak(questions, st.session_state.question_number, selected_language)
+            audio_bytes = audio_recorder(key=f"Q{st.session_state.question_number}",
+                                        icon_size="2x")
+            
+            if selected_language == 'en':
+                user_input = recognize_audio(audio_bytes, "en-EN")
+            elif selected_language == 'ur':
+                user_input = recognize_audio(audio_bytes, "ur-UR")
+            elif selected_language == 'es':
+                user_input = recognize_audio(audio_bytes, "es-ES")
+            elif selected_language == 'bn':
+                user_input = recognize_audio(audio_bytes, "bn-BD")
+            elif selected_language == 'ar':
+                user_input = recognize_audio(audio_bytes, "ar-SA")
+            
+            # Trigger a rerun to update the UI
+            if st.button("Next Question ▶️", key=f"{selected_language}"):
+                st.session_state.question_number += 1
+                st.rerun()
+            
+            # st.divider()
+            if user_input:
+                # Append user query to past queries
+                st.session_state.past.append(user_input)
+
+                # Generate response
+                output = generate_response(user_input)
+
+                # Append AI response to generated responses
+                st.session_state.generated.append(output)
+                # User input
+                st.markdown(f'<div class="chat-bubble user" id="bot-message">🤵🏻: {user_input}</div>', unsafe_allow_html=True)
+                # Bot output
+                st.markdown(f'<div class="chat-bubble bot" id="bot-message">🤖: {output}</div>', unsafe_allow_html=True)
+
+                # Custom CSS
+                st.markdown('''
+                    <style>
+                        .chat-bubble {
+                            font-size: large;
+                            color: white;
+                            padding: 10px;
+                            border-radius: 10px;
+                            margin: 10px 0;
+                            transition: background-color 0.3s;
+                            cursor: pointer;
+                            word-wrap: break-word;
+                        }
+
+                        .user {
+                            background-color: #F36D1F;
+                            overflow: hidden;
+                            white-space: wrap;
+                            width: 0;
+                            animation: typing 1s steps(30, end) forwards;
+                        }
+
+                        .bot {
+                            background-color: black;
+                            overflow: hidden;
+                            white-space: wrap;
+                            width: 0;
+                            animation: typing 1s steps(30, end) forwards;
+                        }
+
+                        .chat-bubble:hover {
+                            background-color: #555;
+                        }
+
+                        @keyframes typing {
+                            from {
+                                width: 0;
+                            }
+                            to {
+                                width: 100%;
+                            }
+                        }
+                    </style>
+                ''', unsafe_allow_html=True)
+
+                # Custom JavaScript
+                st.markdown('''
+                    <script>
+                        setTimeout(function() {
+                            document.getElementById('bot-message').innerHTML += ' {message}';
+                        }, 2000);
+                    </script>
+                ''', unsafe_allow_html=True)
+                text_to_speech(output, st.session_state.question_number, selected_language)
+
+            else:
+                if selected_language == 'en':
+                    if 'en' != selected_language:
+                        st.warning("Please select the language first.")
+                elif selected_language == 'ur':
+                    if 'ur' != selected_language:
+                        st.warning("براہ مہربانی دوسرے سوال کی طرف جائیں۔")
+                elif selected_language == 'es':
+                    if 'es' != selected_language:
+                        st.warning("Por favor, seleccione el idioma primero.")
+                elif selected_language == 'bn':
+                    if 'bn' != selected_language:
+                        st.warning("প্রথমে ভাষা নির্বাচন করুন.")
+                elif selected_language == 'ar':
+                    if 'ar' != selected_language:
+                        st.warning("الرجاء تحديد اللغة أولا.")
+        else:
+            st.success("Congratulations! You have successfully completed all the dialogues.")
+                
+                
+    #------------------------------------------------------------------------------------
+    def display_languages(languages):
+        st.subheader("Language Names")
+
+        # Extract language names from the list of tuples
+        language_names = [lang[0] for lang in languages]
+        st.write(language_names)
+        
+    dic = [
+        ('arabic', 'ar', 'ar-SA'),
+        ('bengali', 'bn', 'bn-BD'),
+        ('english', 'en', 'en-EN'),
+        ('french', 'fr', 'fr-FR'),
+        ('german', 'de', 'de-DE'),
+        ('gujarati', 'gu', 'gu-IN'),
+        ('hindi', 'hi', 'hi-IN'),
+        ('italian', 'it', 'it-IT'),
+        ('japanese', 'ja', 'ja-JP'),
+        ('korean', 'ko', 'ko-KR'),
+        ('malayalam', 'ml', 'ml-IN'),
+        ('marathi', 'mr', 'mr-IN'),
+        ('nepali', 'ne', 'ne-NP'),
+        ('russian', 'ru', 'ru-RU'),
+        ('spanish', 'es', 'es-ES'),
+        ('tamil', 'ta', 'ta-IN'),
+        ('urdu', 'ur', 'ur-UR')
+    ]
+
+    def bolo(question, lang):
+        speech = gTTS(text=question, lang=lang, slow=False, tld="co.in")
+        key = str(uuid.uuid4())
+        filename = f'Languages/{lang+"_"+key}.mp3'
+        speech.save(filename)
+        with st.spinner('Wait for it...'):
+            time.sleep(2)
+        return st.audio(f'Languages/{lang+"_"+key}.mp3')
+
+    os.makedirs('Languages', exist_ok=True)
+
+    with tab2:
+        display_languages(dic)
+
+        # Display selected language code
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            selected_language = st.selectbox("Select source language", [lang[0] for lang in dic], key="source")
+            selected_language_code = [lang[1] for lang in dic if lang[0] == selected_language][0]
+            selected_language_code_with_country = [lang[2] for lang in dic if lang[0] == selected_language][0]
+            
+            audio_bytes = audio_recorder(key= "Translate",
+                                        icon_size="2x")
+            # st.write(selected_language_code)
+            # st.write(selected_language_code_with_country)
+            # st.caption("Complete voice message in 10 secs")
+            if audio_bytes:
+                st.audio(audio_bytes, format="audio/mp3")
+                # st.caption("Source voice")
+                r = sr.Recognizer()
+                try:
+                    with io.BytesIO(audio_bytes) as wav_io:
+                        with sr.AudioFile(wav_io) as source:
+                            audio_data = r.record(source)
+                            query = r.recognize_google(audio_data, language = selected_language_code_with_country)  # Change the language code if needed
+                            st.success(f"You: {query}\n")
+                except sr.UnknownValueError:
+                    st.error("Google Speech Recognition could not understand audio.")
+                except sr.RequestError as e:
+                    st.error(f"Could not request results from Google Speech Recognition service; {e}")
+
+>>>>>>> cc4161a9c4c2bff680e7fc0b25d72ad0bd29867d
         with col2:
             selected_language = st.selectbox("Select source language", [lang[0] for lang in dic], key="convert")
             selected_language_code = [lang[1] for lang in dic if lang[0] == selected_language][0]

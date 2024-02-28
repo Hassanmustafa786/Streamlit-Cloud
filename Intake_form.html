@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICNA Relief Intake Demo</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        select:disabled,
+        input:disabled {
+            background-color: #f0f0f0;
+            color: #999;
+        }
+
+
+
+
+        /* Add some spacing */
+        .button-with-image {
+            margin-top: 10px;
+            text-align: right;
+        }
+        .chatbot-image {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form">
+        <div class="button-with-image">
+            <h2 style="text-align: center;">ICNA Relief Intake Demo</h2>
+
+            <a href="http://localhost:8501/" target="_blank" class="button">Use Mental Health Buddy Chatbot</a>
+
+            <img src="R.png" alt="Chatbot Image" class="chatbot-image">
+        </div>
+
+
+        <p>What is your name?
+        <input type="text" id="name" name="name"></p>
+
+        <p>What is your age?
+        <input type="number" id="age" name="age"></p>
+
+        <p>Are you taking any Medications? If yes, then please tell the name of the medication.
+        <input type="text" id="medicationName" name="medicationName"></p>
+
+        <p>What is your major complaint?
+        <input type="text" id="complaint" name="complaint"></p>
+
+        <p>Are you adopted? If yes, at what age were you adopted?
+        <input type="number" id="adoptedAge" name="adoptedAge"></p>
+
+        <p>How is your relationship with your mother?
+        <input type="text" id="motherRelationship" name="motherRelationship"></p>
+
+        <p>Are you married?
+            <input type="text" id="married" name="married"></p>
+
+        <input type="button" class="btn" value="Generate PDF" onclick="getContentInPDF()">
+    </form>
+
+    <script>
+        function getContentInPDF() {
+            // Access form elements
+            let name = document.getElementById('name').value;
+            let age = document.getElementById('age').value;
+            let medicationName = document.getElementById('medicationName').value;
+            let complaint = document.getElementById('complaint').value;
+            let adoptedAge = document.getElementById('adoptedAge').value;
+            let motherRelationship = document.getElementById('motherRelationship').value;
+            let married = document.getElementById('married').value;
+
+            // Create a single HTML element by adding form data
+            let element = document.createElement('div');
+            element.innerHTML = '<h1>Patient Data</h1>' +
+                '<h2>ICNA Relief</h2>' +
+                '<p>Name: ' + name + '</p>' +
+                '<p>Age: ' + age + '</p>' +
+                '<p>Medication: ' + medicationName + '</p>' +
+                '<p>Complaint: ' + complaint + '</p>' +
+                '<p>Adopted: ' + adoptedAge + '</p>' +
+                '<p>Mother Relationship: ' + motherRelationship + '</p>' +
+                '<p>Married: ' + married + '</p>';
+
+            // Create a new PDF using the form element
+            html2pdf().from(element).save();
+        }
+    </script>
+</body>
+
+</html>

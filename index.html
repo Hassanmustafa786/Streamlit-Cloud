@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Button Example</title>
+  <style>
+    /* Add some basic styling for the button */
+    #imageButton {
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      background: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Create an image button with an onclick event -->
+<button id="imageButton" onclick="passValue('YourValue')">
+  <img src="images/arabic.png" alt="Image Button">
+</button>
+
+<!-- Add a script to handle the onclick event and pass the value -->
+<script>
+  function passValue(value) {
+    alert('The value passed is: ' + value);
+    // You can perform other actions with the value here
+  }
+</script>
+
+</body>
+</html>

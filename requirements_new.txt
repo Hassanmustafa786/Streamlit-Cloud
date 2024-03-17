@@ -1,0 +1,13 @@
+audio_recorder_streamlit
+deep_translator
+fpdf
+gTTS
+langchain
+langchain_core
+langchain_openai
+openai
+python-dotenv
+st_clickable_images
+streamlit
+streamlit_chat
+streamlit_mic_recorder
